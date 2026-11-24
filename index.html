@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電気代かんたん計算</title>
+<style>
+body {
+  font-family: sans-serif;
+  background: #f3f6fa;
+  margin: 0;
+  padding: 30px 15px;
+  color: #333;
+}
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 3px 15px #ddd;
+}
+h1 {
+  text-align: center;
+  color: #2563a6;
+  font-size: 25px;
+}
+p { line-height: 1.7; }
+label {
+  display: block;
+  margin-top: 20px;
+  font-weight: bold;
+}
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  margin-top: 8px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 15px;
+  background: #2563a6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.result {
+  margin-top: 25px;
+  padding: 20px;
+  background: #edf5ff;
+  border-radius: 10px;
+  text-align: center;
+}
+.amount {
+  font-size: 30px;
+  font-weight: bold;
+  color: #2563a6;
+}
+.note {
+  font-size: 12px;
+  color: #777;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>電気代かんたん計算</h1>
+  <p>毎月の電気使用量から、電気代の目安を計算できます。</p>
+
+  <label for="usage">電気使用量（kWh）</label>
+  <input type="number" id="usage" value="300" min="0">
+
+  <label for="price">1kWhあたりの電気料金（円）</label>
+  <input type="number" id="price" value="31" min="0" step="0.1">
+
+  <button onclick="calculate()">電気代を計算する</button>
+
+  <div class="result">
+    <p>電気代の目安</p>
+    <div class="amount" id="result">9,300円</div>
+  </div>
+
+  <p class="note">
+    ※使用量と単価から算出した概算です。実際の請求額には基本料金や燃料費調整額などが含まれる場合があります。
+  </p>
+</div>
+
+<script>
+function calculate() {
+  const usage = Number(document.getElementById("usage").value);
+  const price = Number(document.getElementById("price").value);
+
+  if (
+    document.getElementById("usage").value === "" ||
+    document.getElementById("price").value === "" ||
+    usage < 0 || price < 0
+  ) {
+    alert("正しい数値を入力してください。");
+    return;
+  }
+
+  const total = usage * price;
+
+  document.getElementById("result").textContent =
+    Math.round(total).toLocaleString("ja-JP") + "円";
+}
+</script>
+</body>
+</html>
