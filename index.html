@@ -4,294 +4,291 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="電気使用量と料金単価から毎月の電気代を簡単に計算できる無料ツールです。">
+<meta name="description" content="基本料金、電力量料金、燃料費調整額、再エネ賦課金から電気代を計算できる無料ツールです。">
 <title>電気代かんたん計算｜無料シミュレーター</title>
 <style>
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-    "Noto Sans JP", sans-serif;
+  font-family: sans-serif;
   color: #183153;
   background: #f2f7fc;
   line-height: 1.7;
 }
-
 header {
   background: white;
   padding: 16px 20px;
   border-bottom: 1px solid #e5edf5;
 }
-
 .header-inner {
   max-width: 850px;
   margin: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-size: 21px;
-  font-weight: 800;
+  font-weight: bold;
   color: #1557a5;
 }
-
 .hero {
   text-align: center;
-  padding: 38px 16px 25px;
-  background: linear-gradient(135deg, #dceeff, #f4f9ff);
+  padding: 35px 15px;
+  background: linear-gradient(135deg,#dceeff,#f4f9ff);
 }
-
-.hero h1 {
-  font-size: clamp(25px, 5vw, 36px);
-  margin: 0 0 8px;
-  color: #123e75;
-}
-
-.hero p {
-  margin: 0;
-  color: #526b86;
-}
+.hero h1 { font-size: 30px; margin: 0 0 8px; }
+.hero p { color: #526b86; margin: 0; }
 
 main {
-  max-width: 700px;
+  max-width: 750px;
   margin: 25px auto 50px;
   padding: 0 15px;
 }
-
 .card {
   background: white;
-  padding: 27px;
+  padding: 25px;
   border-radius: 18px;
-  box-shadow: 0 5px 22px rgba(35, 75, 120, 0.08);
-  border: 1px solid #e7eef6;
+  box-shadow: 0 5px 22px rgba(35,75,120,.08);
 }
-
-h2 {
-  font-size: 21px;
-  margin: 0 0 20px;
-}
-
-.field {
-  margin-bottom: 22px;
-}
-
-label {
-  display: block;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+h2 { font-size: 21px; margin-top: 0; }
+.field { margin-bottom: 19px; }
+label { display: block; font-weight: bold; margin-bottom: 7px; }
+.input-wrap { display: flex; align-items: center; gap: 10px; }
 input {
   width: 100%;
   min-width: 0;
-  padding: 15px;
-  font-size: 19px;
+  padding: 13px;
+  font-size: 18px;
   border: 1px solid #cbd8e6;
-  border-radius: 10px;
-  color: #183153;
-  background: #fff;
+  border-radius: 9px;
 }
-
 input:focus {
   outline: 3px solid #cce3ff;
   border-color: #2878d0;
 }
-
-.unit {
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.hint {
-  font-size: 12px;
-  color: #74849a;
-  margin-top: 6px;
-}
+.unit { white-space: nowrap; font-weight: bold; }
+.hint { font-size: 12px; color: #74849a; margin-top: 5px; }
 
 button {
   width: 100%;
-  padding: 16px;
+  padding: 15px;
   border: none;
-  border-radius: 11px;
+  border-radius: 10px;
   background: #1767c2;
   color: white;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: bold;
   cursor: pointer;
-  transition: background .2s;
 }
-
 button:hover { background: #1055a5; }
-button:focus-visible {
-  outline: 3px solid #8bbcff;
-  outline-offset: 3px;
-}
 
 .result {
-  margin-top: 25px;
-  padding: 25px 15px;
+  margin-top: 24px;
+  padding: 23px 15px;
   background: #edf5ff;
-  border-radius: 14px;
-  text-align: center;
   border: 1px solid #d5e8ff;
+  border-radius: 13px;
+  text-align: center;
 }
-
-.result-title {
-  font-weight: 700;
-  color: #45627f;
-}
-
+.result-title { font-weight: bold; color: #45627f; }
 .amount {
-  color: #1261b9;
-  font-size: clamp(32px, 8vw, 45px);
+  font-size: 40px;
   font-weight: 800;
-  line-height: 1.4;
-  margin: 8px 0;
+  color: #1261b9;
   overflow-wrap: anywhere;
 }
-
-.result-sub {
-  font-size: 13px;
-  color: #60758c;
+.breakdown {
+  margin-top: 20px;
+  border-top: 1px solid #dce7f3;
+  padding-top: 12px;
+  text-align: left;
 }
-
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e7eef6;
+}
+.breakdown-row span:last-child {
+  font-weight: bold;
+  white-space: nowrap;
+}
+.total-row {
+  font-size: 18px;
+  color: #1259a5;
+  font-weight: bold;
+}
 .error {
   color: #c52c2c;
   background: #fff0f0;
   padding: 10px;
   border-radius: 8px;
   margin-top: 12px;
-  font-size: 14px;
 }
-
 .info {
-  margin-top: 22px;
-  padding: 17px;
+  margin-top: 20px;
+  padding: 15px;
   background: #f8fafc;
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 13px;
   color: #64748b;
 }
-
-.info strong { color: #334b68; }
-
 footer {
   text-align: center;
-  padding: 25px 15px;
+  padding: 25px;
   color: #8290a0;
   font-size: 12px;
 }
-
-@media (max-width: 480px) {
-  header { padding: 13px 16px; }
-  .header-inner { font-size: 18px; }
-  .hero { padding: 30px 15px 20px; }
-  main { margin-top: 16px; }
-  .card { padding: 20px 17px; }
+@media(max-width:480px) {
+  .card { padding: 19px 15px; }
+  .hero h1 { font-size: 25px; }
+  .amount { font-size: 34px; }
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="header-inner">
-    <span>⚡</span>
-    <span>電気代かんたん計算</span>
-  </div>
+  <div class="header-inner">⚡ 電気代かんたん計算</div>
 </header>
 
 <section class="hero">
-  <h1>毎月の電気代をかんたん計算！</h1>
-  <p>電気使用量と料金単価を入力するだけ。</p>
+  <h1>毎月の電気代を計算！</h1>
+  <p>電気料金の内訳まで簡単シミュレーション</p>
 </section>
 
 <main>
-  <section class="card">
-    <h2>⚡ 電気代を計算してみよう</h2>
+<section class="card">
+<h2>⚡ 電気料金を入力</h2>
 
-    <div class="field">
-      <label for="usage">1か月の電気使用量</label>
-      <div class="input-wrap">
-        <input type="number" id="usage"
-          value="300" min="0" step="any"
-          placeholder="例：300">
-        <span class="unit">kWh</span>
-      </div>
-      <div class="hint">電気料金明細に記載されている使用量を入力してください。</div>
-    </div>
+<div class="field">
+<label for="basic">基本料金</label>
+<div class="input-wrap">
+<input id="basic" type="number" value="0" min="0" step="any">
+<span class="unit">円</span>
+</div>
+</div>
 
-    <div class="field">
-      <label for="price">電気料金単価</label>
-      <div class="input-wrap">
-        <input type="number" id="price"
-          value="31" min="0" step="any"
-          placeholder="例：31">
-        <span class="unit">円/kWh</span>
-      </div>
-      <div class="hint">契約プランの電力量料金単価を入力してください。</div>
-    </div>
+<div class="field">
+<label for="usage">1か月の電気使用量</label>
+<div class="input-wrap">
+<input id="usage" type="number" value="300" min="0" step="any">
+<span class="unit">kWh</span>
+</div>
+</div>
 
-    <button type="button" onclick="calculate()">
-      電気代を計算する
-    </button>
+<div class="field">
+<label for="price">電力量料金単価</label>
+<div class="input-wrap">
+<input id="price" type="number" value="31" min="0" step="any">
+<span class="unit">円/kWh</span>
+</div>
+</div>
 
-    <div id="error" class="error" role="alert" hidden></div>
+<div class="field">
+<label for="fuel">燃料費調整単価</label>
+<div class="input-wrap">
+<input id="fuel" type="number" value="0" step="any">
+<span class="unit">円/kWh</span>
+</div>
+<div class="hint">マイナスの数値も入力できます。</div>
+</div>
 
-    <div class="result" aria-live="polite">
-      <div class="result-title">1か月の電気代の目安</div>
-      <div class="amount" id="result">9,300円</div>
-      <div class="result-sub">使用量 × 電気料金単価</div>
-    </div>
+<div class="field">
+<label for="renewable">再エネ賦課金単価</label>
+<div class="input-wrap">
+<input id="renewable" type="number" value="0" min="0" step="any">
+<span class="unit">円/kWh</span>
+</div>
+</div>
 
-    <div class="info">
-      <strong>計算について</strong><br>
-      このツールは使用電力量と入力された単価による概算です。
-      実際の電気料金には基本料金、燃料費調整額、再生可能エネルギー発電促進賦課金などが加わる場合があります。
-    </div>
-  </section>
+<button type="button" onclick="calculate()">
+電気代を計算する
+</button>
+
+<div id="error" class="error" role="alert" hidden></div>
+
+<div class="result" aria-live="polite">
+<div class="result-title">1か月の電気代の目安</div>
+<div class="amount" id="total">9,300円</div>
+
+<div class="breakdown">
+<div class="breakdown-row">
+<span>基本料金</span>
+<span id="basicResult">0円</span>
+</div>
+<div class="breakdown-row">
+<span>電力量料金</span>
+<span id="energyResult">9,300円</span>
+</div>
+<div class="breakdown-row">
+<span>燃料費調整額</span>
+<span id="fuelResult">0円</span>
+</div>
+<div class="breakdown-row">
+<span>再エネ賦課金</span>
+<span id="renewableResult">0円</span>
+</div>
+<div class="breakdown-row total-row">
+<span>合計</span>
+<span id="sumResult">9,300円</span>
+</div>
+</div>
+</div>
+
+<div class="info">
+<strong>計算について</strong><br>
+基本料金＋電力量料金＋燃料費調整額＋再エネ賦課金で計算します。各単価は利用者が入力してください。実際の請求額は契約プラン、税金、その他の調整額などによって異なります。
+</div>
+</section>
 </main>
 
 <footer>
-  電気代かんたん計算 ｜ 無料計算ツール
+電気代かんたん計算｜無料シミュレーター
 </footer>
 
 <script>
 function calculate() {
-  const usageInput = document.getElementById("usage");
-  const priceInput = document.getElementById("price");
-  const error = document.getElementById("error");
-  const result = document.getElementById("result");
+  const ids = ["basic","usage","price","fuel","renewable"];
+  const values = {};
 
-  const usageText = usageInput.value.trim();
-  const priceText = priceInput.value.trim();
+  for (const id of ids) {
+    const text = document.getElementById(id).value.trim();
+    const number = Number(text);
 
-  const usage = Number(usageText);
-  const price = Number(priceText);
+    if (text === "" || !Number.isFinite(number)) {
+      showError("すべての項目に正しい数値を入力してください。");
+      return;
+    }
+    values[id] = number;
+  }
 
-  error.hidden = true;
-
-  if (
-    usageText === "" || priceText === "" ||
-    !Number.isFinite(usage) ||
-    !Number.isFinite(price) ||
-    usage < 0 || price < 0
-  ) {
-    error.textContent = "0以上の正しい数値を入力してください。";
-    error.hidden = false;
+  if (values.basic < 0 || values.usage < 0 ||
+      values.price < 0 || values.renewable < 0) {
+    showError("基本料金、使用量、電力量料金、再エネ賦課金は0以上で入力してください。");
     return;
   }
 
-  const total = Math.round(usage * price);
+  const basic = values.basic;
+  const energy = values.usage * values.price;
+  const fuel = values.usage * values.fuel;
+  const renewable = values.usage * values.renewable;
+  const total = basic + energy + fuel + renewable;
 
-  result.textContent =
-    total.toLocaleString("ja-JP") + "円";
+  const yen = n => Math.round(n).toLocaleString("ja-JP") + "円";
+
+  document.getElementById("basicResult").textContent = yen(basic);
+  document.getElementById("energyResult").textContent = yen(energy);
+  document.getElementById("fuelResult").textContent = yen(fuel);
+  document.getElementById("renewableResult").textContent = yen(renewable);
+  document.getElementById("total").textContent = yen(total);
+  document.getElementById("sumResult").textContent = yen(total);
+
+  document.getElementById("error").hidden = true;
+}
+
+function showError(message) {
+  const error = document.getElementById("error");
+  error.textContent = message;
+  error.hidden = false;
 }
 </script>
 
