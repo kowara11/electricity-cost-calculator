@@ -4,14 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="基本料金、電力量料金、燃料費調整額、再エネ賦課金から電気代を計算できる無料ツールです。">
-<title>電気代かんたん計算｜無料シミュレーター</title>
+<meta name="description" content="電気代の計算、年間シミュレーション、前月比較、節約アドバイスができる無料ツールです。">
+<title>電気代かんたん計算｜年間シミュレーター</title>
 <style>
 * { box-sizing: border-box; }
-
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   color: #183153;
   background: #f2f7fc;
   line-height: 1.7;
@@ -35,7 +34,6 @@ header {
 }
 .hero h1 { font-size: 30px; margin: 0 0 8px; }
 .hero p { color: #526b86; margin: 0; }
-
 main {
   max-width: 750px;
   margin: 25px auto 50px;
@@ -46,6 +44,7 @@ main {
   padding: 25px;
   border-radius: 18px;
   box-shadow: 0 5px 22px rgba(35,75,120,.08);
+  margin-bottom: 20px;
 }
 h2 { font-size: 21px; margin-top: 0; }
 .field { margin-bottom: 19px; }
@@ -65,7 +64,6 @@ input:focus {
 }
 .unit { white-space: nowrap; font-weight: bold; }
 .hint { font-size: 12px; color: #74849a; margin-top: 5px; }
-
 button {
   width: 100%;
   padding: 15px;
@@ -78,7 +76,6 @@ button {
   cursor: pointer;
 }
 button:hover { background: #1055a5; }
-
 .result {
   margin-top: 24px;
   padding: 23px 15px;
@@ -89,11 +86,12 @@ button:hover { background: #1055a5; }
 }
 .result-title { font-weight: bold; color: #45627f; }
 .amount {
-  font-size: 40px;
+  font-size: 38px;
   font-weight: 800;
   color: #1261b9;
   overflow-wrap: anywhere;
 }
+.sub-amount { color: #45627f; font-size: 14px; }
 .breakdown {
   margin-top: 20px;
   border-top: 1px solid #dce7f3;
@@ -116,6 +114,44 @@ button:hover { background: #1055a5; }
   color: #1259a5;
   font-weight: bold;
 }
+.panel {
+  padding: 18px;
+  background: #f7faff;
+  border: 1px solid #e0ebf8;
+  border-radius: 12px;
+  margin-top: 18px;
+}
+.panel h3 { margin: 0 0 10px; font-size: 17px; }
+.big-number {
+  font-size: 27px;
+  font-weight: 800;
+  color: #1767c2;
+  overflow-wrap: anywhere;
+}
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 15px;
+}
+.compare-box {
+  background: white;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #e2eaf3;
+  text-align: center;
+}
+.compare-label { font-size: 13px; color: #687d94; }
+.compare-value { font-size: 20px; font-weight: bold; }
+.advice {
+  background: #f0f8f2;
+  border: 1px solid #d5ebd9;
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 18px;
+}
+.advice h3 { color: #287443; margin: 0 0 10px; }
+.advice p { margin: 0; }
 .error {
   color: #c52c2c;
   background: #fff0f0;
@@ -140,35 +176,38 @@ footer {
 @media(max-width:480px) {
   .card { padding: 19px 15px; }
   .hero h1 { font-size: 25px; }
-  .amount { font-size: 34px; }
+  .amount { font-size: 32px; }
+  .comparison { gap: 8px; }
+  .compare-box { padding: 10px 5px; }
 }
 </style>
 </head>
-<body>
 
+<body>
 <header>
   <div class="header-inner">⚡ 電気代かんたん計算</div>
 </header>
 
 <section class="hero">
-  <h1>毎月の電気代を計算！</h1>
-  <p>電気料金の内訳まで簡単シミュレーション</p>
+  <h1>電気代を計算・比較・節約！</h1>
+  <p>毎月の電気代から年間の支出まで簡単シミュレーション</p>
 </section>
 
 <main>
+
 <section class="card">
 <h2>⚡ 電気料金を入力</h2>
 
 <div class="field">
 <label for="basic">基本料金</label>
 <div class="input-wrap">
-<input id="basic" type="number" value="0" min="0" step="any">
+<input id="basic" type="number" value="1000" min="0" step="any">
 <span class="unit">円</span>
 </div>
 </div>
 
 <div class="field">
-<label for="usage">1か月の電気使用量</label>
+<label for="usage">今月の電気使用量</label>
 <div class="input-wrap">
 <input id="usage" type="number" value="300" min="0" step="any">
 <span class="unit">kWh</span>
@@ -200,45 +239,92 @@ footer {
 </div>
 </div>
 
-<button type="button" onclick="calculate()">
-電気代を計算する
-</button>
+<div class="field">
+<label for="previous">前月の電気使用量（任意）</label>
+<div class="input-wrap">
+<input id="previous" type="number" placeholder="例：280" min="0" step="any">
+<span class="unit">kWh</span>
+</div>
+<div class="hint">前月との比較をする場合に入力してください。</div>
+</div>
 
+<button type="button" onclick="calculate()">電気代を計算する</button>
 <div id="error" class="error" role="alert" hidden></div>
 
 <div class="result" aria-live="polite">
-<div class="result-title">1か月の電気代の目安</div>
-<div class="amount" id="total">9,300円</div>
+<div class="result-title">今月の電気代の目安</div>
+<div class="amount" id="total">10,600円</div>
+<div class="sub-amount">1か月の概算料金</div>
 
 <div class="breakdown">
 <div class="breakdown-row">
-<span>基本料金</span>
-<span id="basicResult">0円</span>
+<span>基本料金</span><span id="basicResult">1,000円</span>
 </div>
 <div class="breakdown-row">
-<span>電力量料金</span>
-<span id="energyResult">9,300円</span>
+<span>電力量料金</span><span id="energyResult">9,300円</span>
 </div>
 <div class="breakdown-row">
-<span>燃料費調整額</span>
-<span id="fuelResult">0円</span>
+<span>燃料費調整額</span><span id="fuelResult">0円</span>
 </div>
 <div class="breakdown-row">
-<span>再エネ賦課金</span>
-<span id="renewableResult">0円</span>
+<span>再エネ賦課金</span><span id="renewableResult">0円</span>
 </div>
 <div class="breakdown-row total-row">
-<span>合計</span>
-<span id="sumResult">9,300円</span>
+<span>合計</span><span id="sumResult">10,300円</span>
 </div>
 </div>
-</div>
-
-<div class="info">
-<strong>計算について</strong><br>
-基本料金＋電力量料金＋燃料費調整額＋再エネ賦課金で計算します。各単価は利用者が入力してください。実際の請求額は契約プラン、税金、その他の調整額などによって異なります。
 </div>
 </section>
+
+<section class="card">
+<h2>📅 年間電気代シミュレーション</h2>
+<p>今月と同じ使用量・料金が12か月続いた場合の目安です。</p>
+<div class="panel">
+<div class="compare-label">年間の予想電気代</div>
+<div class="big-number" id="yearly">123,600円</div>
+<div class="compare-label">月額の目安 × 12か月</div>
+</div>
+</section>
+
+<section class="card">
+<h2>📊 前月との比較</h2>
+<div id="comparisonMessage">前月の使用量を入力すると比較できます。</div>
+<div class="comparison">
+<div class="compare-box">
+<div class="compare-label">前月の使用量</div>
+<div class="compare-value" id="previousDisplay">未入力</div>
+</div>
+<div class="compare-box">
+<div class="compare-label">今月の使用量</div>
+<div class="compare-value" id="currentDisplay">300kWh</div>
+</div>
+<div class="compare-box">
+<div class="compare-label">使用量の増減</div>
+<div class="compare-value" id="usageDifference">--</div>
+</div>
+<div class="compare-box">
+<div class="compare-label">電気代の増減</div>
+<div class="compare-value" id="costDifference">--</div>
+</div>
+</div>
+<div class="hint">前月と今月に同じ料金単価・基本料金を適用した概算比較です。</div>
+</section>
+
+<section class="card">
+<h2>💡 節約アドバイス</h2>
+<div class="advice">
+<h3 id="adviceTitle">電気代を上手に管理しよう</h3>
+<p id="adviceText">使用量を入力して計算すると、節約のヒントが表示されます。</p>
+</div>
+</section>
+
+<section class="card">
+<h2>ご利用上の注意</h2>
+<div class="info">
+このツールは入力された基本料金と各単価を用いた概算です。年間予測は今月と同じ使用量・料金が続くと仮定しています。前月比較も同じ料金条件で計算するため、実際の請求額とは異なる場合があります。税金、各種割引、その他の調整額などは含まれていません。
+</div>
+</section>
+
 </main>
 
 <footer>
@@ -246,6 +332,10 @@ footer {
 </footer>
 
 <script>
+function money(n) {
+  return Math.round(n).toLocaleString("ja-JP") + "円";
+}
+
 function calculate() {
   const ids = ["basic","usage","price","fuel","renewable"];
   const values = {};
@@ -255,7 +345,7 @@ function calculate() {
     const number = Number(text);
 
     if (text === "" || !Number.isFinite(number)) {
-      showError("すべての項目に正しい数値を入力してください。");
+      showError("料金と使用量の項目を正しく入力してください。");
       return;
     }
     values[id] = number;
@@ -267,22 +357,106 @@ function calculate() {
     return;
   }
 
+  const previousText = document.getElementById("previous").value.trim();
+  let previous = null;
+
+  if (previousText !== "") {
+    previous = Number(previousText);
+    if (!Number.isFinite(previous) || previous < 0) {
+      showError("前月の使用量は0以上の数値で入力してください。");
+      return;
+    }
+  }
+
   const basic = values.basic;
-  const energy = values.usage * values.price;
-  const fuel = values.usage * values.fuel;
-  const renewable = values.usage * values.renewable;
+  const usage = values.usage;
+  const energy = usage * values.price;
+  const fuel = usage * values.fuel;
+  const renewable = usage * values.renewable;
   const total = basic + energy + fuel + renewable;
 
-  const yen = n => Math.round(n).toLocaleString("ja-JP") + "円";
-
-  document.getElementById("basicResult").textContent = yen(basic);
-  document.getElementById("energyResult").textContent = yen(energy);
-  document.getElementById("fuelResult").textContent = yen(fuel);
-  document.getElementById("renewableResult").textContent = yen(renewable);
-  document.getElementById("total").textContent = yen(total);
-  document.getElementById("sumResult").textContent = yen(total);
+  if (![energy, fuel, renewable, total].every(Number.isFinite)) {
+    showError("入力値が大きすぎます。数値を確認してください。");
+    return;
+  }
 
   document.getElementById("error").hidden = true;
+
+  document.getElementById("basicResult").textContent = money(basic);
+  document.getElementById("energyResult").textContent = money(energy);
+  document.getElementById("fuelResult").textContent = money(fuel);
+  document.getElementById("renewableResult").textContent = money(renewable);
+  document.getElementById("total").textContent = money(total);
+  document.getElementById("sumResult").textContent = money(total);
+
+  document.getElementById("yearly").textContent = money(total * 12);
+  document.getElementById("currentDisplay").textContent = usage + "kWh";
+
+  updateComparison(previous, usage, total, values);
+  updateAdvice(previous, usage);
+}
+
+function updateComparison(previous, usage, total, values) {
+  const message = document.getElementById("comparisonMessage");
+
+  if (previous === null) {
+    document.getElementById("previousDisplay").textContent = "未入力";
+    document.getElementById("usageDifference").textContent = "--";
+    document.getElementById("costDifference").textContent = "--";
+    message.textContent = "前月の使用量を入力すると比較できます。";
+    return;
+  }
+
+  const difference = usage - previous;
+  const rate = previous === 0
+    ? null
+    : difference / previous * 100;
+
+  const previousCost =
+    values.basic + previous * (
+      values.price + values.fuel + values.renewable
+    );
+
+  const costDifference = total - previousCost;
+
+  document.getElementById("previousDisplay").textContent = previous + "kWh";
+  document.getElementById("usageDifference").textContent =
+    (difference > 0 ? "+" : "") + difference.toLocaleString("ja-JP") + "kWh";
+  document.getElementById("costDifference").textContent =
+    (costDifference > 0 ? "+" : "") + money(costDifference);
+
+  if (difference > 0) {
+    message.textContent = "前月より使用量が増えています。" +
+      (rate === null ? "" : " 増加率は約" + rate.toFixed(1) + "%です。");
+  } else if (difference < 0) {
+    message.textContent = "前月より使用量が減っています。" +
+      (rate === null ? "" : " 減少率は約" + Math.abs(rate).toFixed(1) + "%です。");
+  } else {
+    message.textContent = "前月と今月の使用量は同じです。";
+  }
+}
+
+function updateAdvice(previous, usage) {
+  const title = document.getElementById("adviceTitle");
+  const text = document.getElementById("adviceText");
+
+  if (previous === null) {
+    title.textContent = "まずは使用量をチェック！";
+    text.textContent =
+      "前月の使用量も入力すると、増減を確認できます。エアコンの設定温度、照明、待機電力などを見直すことも節約につながります。";
+  } else if (usage > previous) {
+    title.textContent = "使用量が増えています";
+    text.textContent =
+      "エアコンや暖房器具の使用時間、給湯器、家電の使い方などを確認してみましょう。気温や在宅時間、家族構成の変化も増加の理由になります。";
+  } else if (usage < previous) {
+    title.textContent = "使用量が減っています！";
+    text.textContent =
+      "良い変化です。無理のない範囲で、照明をこまめに消すことや、使わない家電の電源を切る習慣を続けてみましょう。";
+  } else {
+    title.textContent = "使用量を維持できています";
+    text.textContent =
+      "前月と同じ使用量です。エアコンのフィルター掃除や冷蔵庫の設定、照明の使い方などを見直してみましょう。";
+  }
 }
 
 function showError(message) {
