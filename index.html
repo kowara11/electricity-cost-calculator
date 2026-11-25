@@ -1,116 +1,299 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>電気代かんたん計算</title>
+<meta name="description" content="電気使用量と料金単価から毎月の電気代を簡単に計算できる無料ツールです。">
+<title>電気代かんたん計算｜無料シミュレーター</title>
 <style>
+* { box-sizing: border-box; }
+
 body {
-  font-family: sans-serif;
-  background: #f3f6fa;
   margin: 0;
-  padding: 30px 15px;
-  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "Noto Sans JP", sans-serif;
+  color: #183153;
+  background: #f2f7fc;
+  line-height: 1.7;
 }
-.container {
-  max-width: 500px;
-  margin: auto;
+
+header {
   background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 3px 15px #ddd;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5edf5;
 }
-h1 {
+
+.header-inner {
+  max-width: 850px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 21px;
+  font-weight: 800;
+  color: #1557a5;
+}
+
+.hero {
   text-align: center;
-  color: #2563a6;
-  font-size: 25px;
+  padding: 38px 16px 25px;
+  background: linear-gradient(135deg, #dceeff, #f4f9ff);
 }
-p { line-height: 1.7; }
+
+.hero h1 {
+  font-size: clamp(25px, 5vw, 36px);
+  margin: 0 0 8px;
+  color: #123e75;
+}
+
+.hero p {
+  margin: 0;
+  color: #526b86;
+}
+
+main {
+  max-width: 700px;
+  margin: 25px auto 50px;
+  padding: 0 15px;
+}
+
+.card {
+  background: white;
+  padding: 27px;
+  border-radius: 18px;
+  box-shadow: 0 5px 22px rgba(35, 75, 120, 0.08);
+  border: 1px solid #e7eef6;
+}
+
+h2 {
+  font-size: 21px;
+  margin: 0 0 20px;
+}
+
+.field {
+  margin-bottom: 22px;
+}
+
 label {
   display: block;
-  margin-top: 20px;
-  font-weight: bold;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
+
+.input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 input {
   width: 100%;
-  box-sizing: border-box;
-  padding: 13px;
-  margin-top: 8px;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  min-width: 0;
+  padding: 15px;
+  font-size: 19px;
+  border: 1px solid #cbd8e6;
+  border-radius: 10px;
+  color: #183153;
+  background: #fff;
 }
+
+input:focus {
+  outline: 3px solid #cce3ff;
+  border-color: #2878d0;
+}
+
+.unit {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 12px;
+  color: #74849a;
+  margin-top: 6px;
+}
+
 button {
   width: 100%;
-  margin-top: 25px;
-  padding: 15px;
-  background: #2563a6;
-  color: white;
+  padding: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 11px;
+  background: #1767c2;
+  color: white;
   font-size: 18px;
+  font-weight: 700;
   cursor: pointer;
+  transition: background .2s;
 }
+
+button:hover { background: #1055a5; }
+button:focus-visible {
+  outline: 3px solid #8bbcff;
+  outline-offset: 3px;
+}
+
 .result {
   margin-top: 25px;
-  padding: 20px;
+  padding: 25px 15px;
   background: #edf5ff;
-  border-radius: 10px;
+  border-radius: 14px;
   text-align: center;
+  border: 1px solid #d5e8ff;
 }
+
+.result-title {
+  font-weight: 700;
+  color: #45627f;
+}
+
 .amount {
-  font-size: 30px;
-  font-weight: bold;
-  color: #2563a6;
+  color: #1261b9;
+  font-size: clamp(32px, 8vw, 45px);
+  font-weight: 800;
+  line-height: 1.4;
+  margin: 8px 0;
+  overflow-wrap: anywhere;
 }
-.note {
+
+.result-sub {
+  font-size: 13px;
+  color: #60758c;
+}
+
+.error {
+  color: #c52c2c;
+  background: #fff0f0;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.info {
+  margin-top: 22px;
+  padding: 17px;
+  background: #f8fafc;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.info strong { color: #334b68; }
+
+footer {
+  text-align: center;
+  padding: 25px 15px;
+  color: #8290a0;
   font-size: 12px;
-  color: #777;
+}
+
+@media (max-width: 480px) {
+  header { padding: 13px 16px; }
+  .header-inner { font-size: 18px; }
+  .hero { padding: 30px 15px 20px; }
+  main { margin-top: 16px; }
+  .card { padding: 20px 17px; }
 }
 </style>
 </head>
+
 <body>
-<div class="container">
-  <h1>電気代かんたん計算</h1>
-  <p>毎月の電気使用量から、電気代の目安を計算できます。</p>
 
-  <label for="usage">電気使用量（kWh）</label>
-  <input type="number" id="usage" value="300" min="0">
-
-  <label for="price">1kWhあたりの電気料金（円）</label>
-  <input type="number" id="price" value="31" min="0" step="0.1">
-
-  <button onclick="calculate()">電気代を計算する</button>
-
-  <div class="result">
-    <p>電気代の目安</p>
-    <div class="amount" id="result">9,300円</div>
+<header>
+  <div class="header-inner">
+    <span>⚡</span>
+    <span>電気代かんたん計算</span>
   </div>
+</header>
 
-  <p class="note">
-    ※使用量と単価から算出した概算です。実際の請求額には基本料金や燃料費調整額などが含まれる場合があります。
-  </p>
-</div>
+<section class="hero">
+  <h1>毎月の電気代をかんたん計算！</h1>
+  <p>電気使用量と料金単価を入力するだけ。</p>
+</section>
+
+<main>
+  <section class="card">
+    <h2>⚡ 電気代を計算してみよう</h2>
+
+    <div class="field">
+      <label for="usage">1か月の電気使用量</label>
+      <div class="input-wrap">
+        <input type="number" id="usage"
+          value="300" min="0" step="any"
+          placeholder="例：300">
+        <span class="unit">kWh</span>
+      </div>
+      <div class="hint">電気料金明細に記載されている使用量を入力してください。</div>
+    </div>
+
+    <div class="field">
+      <label for="price">電気料金単価</label>
+      <div class="input-wrap">
+        <input type="number" id="price"
+          value="31" min="0" step="any"
+          placeholder="例：31">
+        <span class="unit">円/kWh</span>
+      </div>
+      <div class="hint">契約プランの電力量料金単価を入力してください。</div>
+    </div>
+
+    <button type="button" onclick="calculate()">
+      電気代を計算する
+    </button>
+
+    <div id="error" class="error" role="alert" hidden></div>
+
+    <div class="result" aria-live="polite">
+      <div class="result-title">1か月の電気代の目安</div>
+      <div class="amount" id="result">9,300円</div>
+      <div class="result-sub">使用量 × 電気料金単価</div>
+    </div>
+
+    <div class="info">
+      <strong>計算について</strong><br>
+      このツールは使用電力量と入力された単価による概算です。
+      実際の電気料金には基本料金、燃料費調整額、再生可能エネルギー発電促進賦課金などが加わる場合があります。
+    </div>
+  </section>
+</main>
+
+<footer>
+  電気代かんたん計算 ｜ 無料計算ツール
+</footer>
 
 <script>
 function calculate() {
-  const usage = Number(document.getElementById("usage").value);
-  const price = Number(document.getElementById("price").value);
+  const usageInput = document.getElementById("usage");
+  const priceInput = document.getElementById("price");
+  const error = document.getElementById("error");
+  const result = document.getElementById("result");
+
+  const usageText = usageInput.value.trim();
+  const priceText = priceInput.value.trim();
+
+  const usage = Number(usageText);
+  const price = Number(priceText);
+
+  error.hidden = true;
 
   if (
-    document.getElementById("usage").value === "" ||
-    document.getElementById("price").value === "" ||
+    usageText === "" || priceText === "" ||
+    !Number.isFinite(usage) ||
+    !Number.isFinite(price) ||
     usage < 0 || price < 0
   ) {
-    alert("正しい数値を入力してください。");
+    error.textContent = "0以上の正しい数値を入力してください。";
+    error.hidden = false;
     return;
   }
 
-  const total = usage * price;
+  const total = Math.round(usage * price);
 
-  document.getElementById("result").textContent =
-    Math.round(total).toLocaleString("ja-JP") + "円";
+  result.textContent =
+    total.toLocaleString("ja-JP") + "円";
 }
 </script>
+
 </body>
 </html>
