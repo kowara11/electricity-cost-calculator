@@ -180,7 +180,34 @@ footer {
   .comparison { gap: 8px; }
   .compare-box { padding: 10px 5px; }
 }
-</style>
+
+/* スマホでのSEO説明文の表示調整 */
+@media (max-width: 600px) {
+  main .card {
+    padding: 20px 16px;
+  }
+
+  main .card h2 {
+    font-size: 21px;
+    line-height: 1.5;
+  }
+
+  main .card h3 {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  main .card p,
+  main .card li {
+    font-size: 15px;
+    line-height: 1.9;
+  }
+
+  main .card ul {
+    padding-left: 22px;
+  }
+}
+/style>
 </head>
 
 <body>
